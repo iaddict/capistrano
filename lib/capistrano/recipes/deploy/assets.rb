@@ -24,6 +24,7 @@ end
 # Parses manifest and returns array of uncompressed and compressed asset filenames with and without digests
 # "Intelligently" determines format of string - supports YAML and JSON
 def parse_manifest(str)
+  str = str.force_encoding('UTF-8')
   assets_hash = str[0,1] == '{' ? JSON.parse(str)['assets'] : YAML.load(str)
 
   assets_hash.to_a.flatten.map {|a| [a, "#{a}.gz"] }.flatten
